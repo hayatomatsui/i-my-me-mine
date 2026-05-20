@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人称代名詞マスター | 中1英語</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Fredoka:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fbf4e0;
+    --paper-warm: #f5ead0;
+    --paper-shadow: rgba(120, 80, 30, 0.08);
+    --ink: #2e2418;
+    --ink-soft: #5e4d38;
+    --ink-faded: #8c7a5e;
+    --line: #d9c89e;
+
+    --c-nom: #5fa8d8;
+    --c-nom-bg: #d8eaf5;
+    --c-nom-dark: #2e6f9a;
+
+    --c-poss: #e88aa6;
+    --c-poss-bg: #f7d8e1;
+    --c-poss-dark: #b9526f;
+
+    --c-obj: #efc04a;
+    --c-obj-bg: #faecbf;
+    --c-obj-dark: #a8800f;
+
+    --c-pron: #e09135;
+    --c-pron-bg: #f6dab2;
+    --c-pron-dark: #8a521a;
+
+    --ok: #6ba36b;
+    --ok-bg: #dcecdc;
+    --ng: #d96363;
+    --ng-bg: #f4d9d9;
+
+    --font-jp: 'Zen Maru Gothic', sans-serif;
+    --font-jp-hand: 'Yusei Magic', cursive;
+    --font-en: 'Fredoka', sans-serif;
+    --font-en-hand: 'Caveat', cursive;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-jp);
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(232, 138, 166, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(95, 168, 216, 0.07) 0%, transparent 50%),
+      radial-gradient(circle at 50% 90%, rgba(239, 192, 74, 0.06) 0%, transparent 50%);
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 31px,
+      rgba(180, 140, 80, 0.04) 31px, rgba(180, 140, 80, 0.04) 32px
+    );
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 32px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ============ HEADER ============ */
+  header { text-align: center; padding: 24px 0 32px; }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--font-en-hand);
+    font-size: 22px;
+    color: var(--c-poss-dark);
+    background: var(--c-poss-bg);
+    padding: 4px 18px;
+    border-radius: 22px;
+    transform: rotate(-3deg);
+    margin-bottom: 14px;
+    box-shadow: 2px 2px 0 var(--paper-shadow);
+  }
+
+  h1 {
+    font-family: var(--font-jp-hand);
+    font-size: clamp(32px, 6vw, 48px);
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+  }
+
+  h1 .highlight {
+    background: linear-gradient(transparent 60%, var(--c-obj-bg) 60%);
+    padding: 0 4px;
+  }
+
+  .subtitle {
+    font-family: var(--font-en-hand);
+    font-size: 26px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  /* ============ TABS ============ */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0 28px;
+    background: var(--paper-warm);
+    padding: 6px;
+    border-radius: 16px;
+    border: 1.5px solid var(--line);
+    box-shadow: 0 2px 0 var(--paper-shadow);
+  }
+
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 14px 16px;
+    font-family: var(--font-jp);
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+
+  .tab-btn:hover { background: rgba(255, 255, 255, 0.5); }
+
+  .tab-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+    box-shadow: 0 3px 0 rgba(0,0,0,0.15);
+  }
+
+  .tab-btn .tab-icon { margin-right: 6px; }
+
+  .section { display: none; animation: fadeIn 0.4s ease; }
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ============ LESSON ============ */
+  .lesson-block {
+    background: #fffaeb;
+    border: 1.5px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 26px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 0 var(--paper-shadow), 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .lesson-block h2 {
+    font-family: var(--font-jp-hand);
+    font-size: 24px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .lesson-block h2 .num {
+    background: var(--ink);
+    color: var(--paper);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-en);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .lesson-block p {
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+
+  .lesson-block .accent {
+    background: linear-gradient(transparent 65%, var(--c-obj-bg) 65%);
+    font-weight: 700;
+    padding: 0 2px;
+  }
+
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0 8px;
+  }
+
+  .compare-box {
+    background: var(--paper-warm);
+    border: 1.5px dashed var(--line);
+    border-radius: 12px;
+    padding: 18px 16px;
+  }
+
+  .compare-box h3 {
+    font-family: var(--font-jp-hand);
+    font-size: 17px;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+
+  .compare-box .ex { font-size: 15px; margin-bottom: 6px; line-height: 1.8; }
+
+  .compare-box .part-jp {
+    color: var(--c-poss-dark);
+    font-weight: 700;
+    background: var(--c-poss-bg);
+    padding: 1px 4px;
+    border-radius: 4px;
+  }
+
+  .compare-box .part-en {
+    font-family: var(--font-en);
+    font-weight: 600;
+    color: var(--c-nom-dark);
+    background: var(--c-nom-bg);
+    padding: 1px 4px;
+    border-radius: 4px;
+  }
+
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+
+  .case-card {
+    border-radius: 14px;
+    padding: 18px 16px;
+    border: 1.5px solid;
+  }
+
+  .case-card.nom { background: var(--c-nom-bg); border-color: var(--c-nom); }
+  .case-card.poss { background: var(--c-poss-bg); border-color: var(--c-poss); }
+  .case-card.obj { background: var(--c-obj-bg); border-color: var(--c-obj); }
+  .case-card.pron { background: var(--c-pron-bg); border-color: var(--c-pron); }
+
+  .case-card .case-name {
+    font-family: var(--font-jp-hand);
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .case-card.nom .case-name { color: var(--c-nom-dark); }
+  .case-card.poss .case-name { color: var(--c-poss-dark); }
+  .case-card.obj .case-name { color: var(--c-obj-dark); }
+  .case-card.pron .case-name { color: var(--c-pron-dark); }
+
+  .case-card .particle {
+    font-family: var(--font-jp);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.6);
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+  }
+
+  .case-card .role {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  .case-card .example {
+    font-family: var(--font-en);
+    font-size: 16px;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  .case-card .example b {
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4px;
+  }
+
+  .case-card.nom .example b { text-decoration-color: var(--c-nom-dark); }
+  .case-card.poss .example b { text-decoration-color: var(--c-poss-dark); }
+  .case-card.obj .example b { text-decoration-color: var(--c-obj-dark); }
+  .case-card.pron .example b { text-decoration-color: var(--c-pron-dark); }
+
+  .pronoun-table-wrap { overflow-x: auto; margin: 12px 0; }
+
+  .pronoun-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 4px;
+    min-width: 460px;
+  }
+
+  .pronoun-table th, .pronoun-table td {
+    padding: 10px 8px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
+  .pronoun-table th {
+    font-family: var(--font-jp-hand);
+    font-size: 14px;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid var(--line);
+  }
+
+  .pronoun-table th.nom-h { background: var(--c-nom-bg); border-color: var(--c-nom); }
+  .pronoun-table th.poss-h { background: var(--c-poss-bg); border-color: var(--c-poss); }
+  .pronoun-table th.obj-h { background: var(--c-obj-bg); border-color: var(--c-obj); }
+  .pronoun-table th.pron-h { background: var(--c-pron-bg); border-color: var(--c-pron); }
+
+  .pronoun-table th .h-particle {
+    display: block;
+    font-family: var(--font-jp);
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .pronoun-table td {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    font-family: var(--font-en);
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .pronoun-table .row-label {
+    font-family: var(--font-jp);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: var(--paper-warm);
+  }
+
+  .pronoun-table .group-header td {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-jp-hand);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px;
+  }
+
+  .multiform {
+    background: var(--paper-warm);
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    padding: 20px 18px;
+    margin: 12px 0;
+    position: relative;
+  }
+
+  .multiform::before {
+    content: '★';
+    position: absolute;
+    top: -14px;
+    left: 18px;
+    font-size: 22px;
+    background: var(--paper);
+    padding: 0 6px;
+    color: var(--c-pron-dark);
+  }
+
+  .multiform .sentence {
+    font-family: var(--font-en);
+    font-size: 18px;
+    line-height: 1.9;
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    background: #fff;
+    border-radius: 8px;
+  }
+
+  .multiform .sentence .p-nom { color: var(--c-nom-dark); font-weight: 700; background: var(--c-nom-bg); padding: 0 4px; border-radius: 4px; }
+  .multiform .sentence .p-poss { color: var(--c-poss-dark); font-weight: 700; background: var(--c-poss-bg); padding: 0 4px; border-radius: 4px; }
+  .multiform .sentence .p-obj { color: var(--c-obj-dark); font-weight: 700; background: var(--c-obj-bg); padding: 0 4px; border-radius: 4px; }
+  .multiform .sentence .p-pron { color: var(--c-pron-dark); font-weight: 700; background: var(--c-pron-bg); padding: 0 4px; border-radius: 4px; }
+
+  .multiform .jp-trans { font-size: 14px; color: var(--ink-soft); margin-bottom: 10px; }
+  .multiform .breakdown { list-style: none; font-size: 14px; line-height: 1.9; }
+  .multiform .breakdown li::before { content: '→ '; color: var(--ink-faded); }
+
+  .chant {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 14px;
+    padding: 18px 20px;
+    font-family: var(--font-jp-hand);
+    font-size: 17px;
+    line-height: 2.1;
+    text-align: center;
+    margin: 12px 0;
+  }
+
+  .chant .row { display: block; margin: 4px 0; }
+  .chant .en { font-family: var(--font-en); font-weight: 700; color: var(--c-obj); }
+
+  /* ============ FLIP TABLE (SELF-PRACTICE) ============ */
+  .flip-intro-card {
+    background: #fffaeb;
+    border: 1.5px solid var(--line);
+    border-radius: 18px;
+    padding: 24px 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 0 var(--paper-shadow);
+  }
+
+  .flip-intro-card h2 {
+    font-family: var(--font-jp-hand);
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .flip-intro-card > p {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+
+  .flip-howto {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: var(--paper-warm);
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .howto-item {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .howto-item b {
+    color: var(--ink);
+    background: #fff;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .flip-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    justify-content: center;
+  }
+
+  .ctrl-btn {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-family: var(--font-jp);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 0 var(--paper-shadow);
+  }
+
+  .ctrl-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 0 var(--paper-shadow);
+  }
+
+  .ctrl-btn.show { background: var(--c-obj-bg); border-color: var(--c-obj); }
+  .ctrl-btn.hide { background: var(--paper-warm); }
+
+  .flip-table {
+    display: grid;
+    grid-template-columns: minmax(72px, 0.8fr) repeat(4, 1fr);
+    gap: 6px;
+    background: #fffaeb;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 4px 0 var(--paper-shadow);
+  }
+
+  .flip-corner {
+    /* empty top-left cell */
+  }
+
+  .flip-col-header {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 4px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s ease;
+  }
+
+  .flip-col-header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 0 var(--paper-shadow);
+  }
+
+  .flip-col-header.nom { background: var(--c-nom-bg); border-color: var(--c-nom); }
+  .flip-col-header.poss { background: var(--c-poss-bg); border-color: var(--c-poss); }
+  .flip-col-header.obj { background: var(--c-obj-bg); border-color: var(--c-obj); }
+  .flip-col-header.pron { background: var(--c-pron-bg); border-color: var(--c-pron); }
+
+  .flip-col-header .ch-name {
+    font-family: var(--font-jp-hand);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .flip-col-header .ch-particle {
+    display: block;
+    font-family: var(--font-jp);
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  .flip-row-label {
+    background: var(--paper-warm);
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 6px;
+    text-align: center;
+    font-family: var(--font-jp);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+
+  .flip-row-label:hover {
+    background: var(--c-obj-bg);
+    border-color: var(--c-obj);
+    transform: translateX(-2px);
+    box-shadow: 2px 0 0 var(--paper-shadow);
+  }
+
+  .flip-group-header {
+    grid-column: 1 / -1;
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    font-family: var(--font-jp-hand);
+    font-size: 13px;
+    font-weight: 700;
+    margin: 4px 0 2px;
+  }
+
+  /* === FLIP CARD === */
+  .flip-card {
+    perspective: 800px;
+    cursor: pointer;
+    height: 58px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.22s cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+  .flip-card.flipped .flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card:hover .flip-inner {
+    transform: scale(1.03);
+  }
+
+  .flip-card.flipped:hover .flip-inner {
+    transform: rotateY(180deg) scale(1.03);
+  }
+
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1.5px solid;
+  }
+
+  .flip-front {
+    background: var(--paper-warm);
+    border-color: var(--line);
+    color: var(--ink-faded);
+    font-family: var(--font-en-hand);
+    font-size: 28px;
+    font-weight: 700;
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 6px,
+        rgba(180, 140, 80, 0.05) 6px,
+        rgba(180, 140, 80, 0.05) 12px
+      );
+  }
+
+  .flip-back {
+    background: #fff;
+    transform: rotateY(180deg);
+    font-family: var(--font-en);
+    font-weight: 700;
+    font-size: 20px;
+  }
+
+  .flip-back.nom { background: var(--c-nom-bg); border-color: var(--c-nom); color: var(--c-nom-dark); }
+  .flip-back.poss { background: var(--c-poss-bg); border-color: var(--c-poss); color: var(--c-poss-dark); }
+  .flip-back.obj { background: var(--c-obj-bg); border-color: var(--c-obj); color: var(--c-obj-dark); }
+  .flip-back.pron { background: var(--c-pron-bg); border-color: var(--c-pron); color: var(--c-pron-dark); }
+
+  @media (max-width: 600px) {
+    .flip-table {
+      gap: 4px;
+      padding: 10px;
+      grid-template-columns: minmax(62px, 0.7fr) repeat(4, 1fr);
+    }
+    .flip-card { height: 50px; }
+    .flip-front { font-size: 22px; }
+    .flip-back { font-size: 16px; }
+    .flip-row-label { font-size: 13px; padding: 6px 2px; }
+    .flip-col-header { padding: 6px 2px; }
+    .flip-col-header .ch-name { font-size: 12px; }
+    .flip-col-header .ch-particle { font-size: 10px; }
+    .flip-controls { flex-wrap: wrap; }
+    .ctrl-btn { font-size: 13px; padding: 8px 14px; }
+  }
+
+  /* ============ QUIZ START SCREEN ============ */
+  .quiz-start { display: block; }
+  .quiz-start.hidden { display: none; }
+
+  .start-card {
+    background: #fffaeb;
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 4px 4px 0 var(--paper-shadow);
+  }
+
+  .start-card .start-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .start-card h2 {
+    font-family: var(--font-jp-hand);
+    font-size: 28px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+
+  .start-card .start-desc {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  .mode-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .mode-btn {
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 16px;
+    cursor: pointer;
+    text-align: center;
+    font-family: var(--font-jp);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .mode-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 0 var(--paper-shadow);
+  }
+
+  .mode-btn.order { border-color: var(--c-nom); background: var(--c-nom-bg); }
+  .mode-btn.order:hover { background: #c6dff0; }
+  .mode-btn.random { border-color: var(--c-pron); background: var(--c-pron-bg); }
+  .mode-btn.random:hover { background: #f0c890; }
+
+  .mode-btn .mode-icon { font-size: 36px; line-height: 1; }
+  .mode-btn .mode-name {
+    font-family: var(--font-jp-hand);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .mode-btn .mode-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* ============ QUIZ ============ */
+  .quiz-play { display: none; }
+  .quiz-play.active { display: block; }
+
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 4px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .quiz-progress-text {
+    font-family: var(--font-en);
+    font-weight: 600;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  .mode-badge {
+    font-family: var(--font-jp-hand);
+    font-size: 13px;
+    padding: 3px 12px;
+    border-radius: 14px;
+    color: var(--ink);
+  }
+
+  .mode-badge.order { background: var(--c-nom-bg); border: 1.5px solid var(--c-nom); }
+  .mode-badge.random { background: var(--c-pron-bg); border: 1.5px solid var(--c-pron); }
+
+  .quiz-score {
+    font-family: var(--font-en);
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 16px;
+    background: var(--c-obj-bg);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: var(--paper-warm);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 22px;
+    border: 1.5px solid var(--line);
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--c-nom) 0%, var(--c-poss) 50%, var(--c-obj) 100%);
+    width: 0%;
+    transition: width 0.4s ease;
+    border-radius: 8px;
+  }
+
+  .quiz-card {
+    background: #fffaeb;
+    border: 2px solid var(--ink);
+    border-radius: 18px;
+    padding: 26px 24px;
+    box-shadow: 4px 4px 0 var(--paper-shadow);
+    min-height: 380px;
+  }
+
+  .q-category {
+    display: inline-block;
+    font-family: var(--font-jp-hand);
+    font-size: 14px;
+    color: var(--paper);
+    padding: 3px 14px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+  }
+
+  .q-category.nom { background: var(--c-nom-dark); }
+  .q-category.poss { background: var(--c-poss-dark); }
+  .q-category.obj { background: var(--c-obj-dark); }
+  .q-category.pron { background: var(--c-pron-dark); }
+
+  .question {
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 2px dashed var(--line);
+  }
+
+  .question .en-sentence {
+    font-family: var(--font-en);
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--ink);
+    margin: 4px 0 10px;
+    line-height: 1.5;
+  }
+
+  .question .blank {
+    display: inline-block;
+    min-width: 60px;
+    border-bottom: 3px solid var(--ink);
+    margin: 0 4px;
+    text-align: center;
+  }
+
+  .question .jp-hint {
+    font-size: 14px;
+    color: var(--ink-soft);
+    background: var(--paper-warm);
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .option-btn {
+    background: #fff;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-en);
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--ink);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    background: var(--paper-warm);
+    border-color: var(--ink);
+    transform: translateX(3px);
+  }
+
+  .option-btn:disabled { cursor: default; }
+
+  .option-btn .letter {
+    font-family: var(--font-en-hand);
+    font-size: 22px;
+    color: var(--ink-faded);
+    width: 24px;
+    flex-shrink: 0;
+  }
+
+  .option-btn .opt-text { flex-grow: 1; }
+
+  .option-btn.correct {
+    background: var(--ok-bg);
+    border-color: var(--ok);
+    color: var(--ok);
+  }
+  .option-btn.correct .letter { color: var(--ok); }
+
+  .option-btn.wrong {
+    background: var(--ng-bg);
+    border-color: var(--ng);
+    color: var(--ng);
+  }
+  .option-btn.wrong .letter { color: var(--ng); }
+
+  .option-btn .mark {
+    margin-left: auto;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  .feedback {
+    margin-top: 18px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    display: none;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .feedback.show { display: block; }
+  .feedback.ok { background: var(--ok-bg); border-left: 4px solid var(--ok); }
+  .feedback.ng { background: var(--ng-bg); border-left: 4px solid var(--ng); }
+
+  .feedback-title {
+    font-family: var(--font-jp-hand);
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+
+  .feedback.ok .feedback-title { color: var(--ok); }
+  .feedback.ng .feedback-title { color: var(--ng); }
+
+  .feedback-text {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  .quiz-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+  }
+
+  .quit-btn {
+    background: transparent;
+    border: 1.5px solid var(--line);
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-family: var(--font-jp);
+    font-size: 13px;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .quit-btn:hover { background: var(--paper-warm); }
+
+  .next-btn {
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-family: var(--font-jp);
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+    transition: transform 0.15s ease;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+  }
+
+  .next-btn.show { display: inline-block; }
+  .next-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 rgba(0,0,0,0.2); }
+  .next-btn:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+
+  /* Results screen */
+  .result-screen {
+    text-align: center;
+    padding: 30px 20px;
+    display: none;
+    background: #fffaeb;
+    border: 2px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 4px 4px 0 var(--paper-shadow);
+  }
+
+  .result-screen.show { display: block; }
+
+  .result-screen .result-emoji {
+    font-size: 48px;
+    margin: 8px 0;
+  }
+
+  .result-screen .score-big {
+    font-family: var(--font-en);
+    font-size: 80px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin: 8px 0;
+  }
+
+  .result-screen .score-big .total {
+    color: var(--ink-faded);
+    font-size: 40px;
+  }
+
+  .result-screen .grade {
+    font-family: var(--font-jp-hand);
+    font-size: 26px;
+    margin: 8px 0;
+  }
+
+  .result-screen .grade-msg {
+    color: var(--ink-soft);
+    margin: 10px 20px 24px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .result-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .restart-btn {
+    background: var(--c-obj);
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    padding: 12px 24px;
+    border-radius: 14px;
+    font-family: var(--font-jp);
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink);
+    transition: all 0.15s ease;
+  }
+
+  .restart-btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--ink); }
+  .restart-btn:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--ink); }
+
+  .restart-btn.secondary {
+    background: var(--paper-warm);
+    color: var(--ink);
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1.5px dashed var(--line);
+    color: var(--ink-faded);
+    font-size: 13px;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 16px 14px 60px; }
+    h1 { font-size: 28px; }
+    .compare { grid-template-columns: 1fr; }
+    .cases-grid { grid-template-columns: 1fr; }
+    .mode-buttons { grid-template-columns: 1fr; }
+    .lesson-block { padding: 22px 18px; }
+    .question .en-sentence { font-size: 20px; }
+    .option-btn { font-size: 17px; padding: 12px 14px; }
+    .tab-btn { font-size: 14px; padding: 12px 10px; }
+    .quiz-card { padding: 20px 16px; }
+    .options { grid-template-columns: 1fr; }
+    .quiz-actions { flex-direction: column; align-items: stretch; gap: 8px; }
+    .quit-btn { order: 2; }
+    .next-btn { order: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <span class="badge">for 中学生</span>
+    <h1>人称代名詞<span class="highlight">マスター</span></h1>
+    <p class="subtitle">I, my, me, mine ... why so many?</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn active" data-tab="lesson"><span class="tab-icon">📖</span>解説を読む</button>
+    <button class="tab-btn" data-tab="flip"><span class="tab-icon">🔄</span>めくって覚える</button>
+    <button class="tab-btn" data-tab="quiz"><span class="tab-icon">✏️</span>問題に挑戦</button>
+  </div>
+
+  <!-- ============ LESSON SECTION ============ -->
+  <section id="lesson-section" class="section active">
+
+    <div class="lesson-block">
+      <h2><span class="num">1</span>なぜ「I」が「me」に変わるの？</h2>
+      <p>英語の代名詞でいちばん大切なのは、<span class="accent">文の中での役割によって、単語そのものの形が変わる</span>ということ。日本語との大きなちがいはここにあります。</p>
+
+      <div class="compare">
+        <div class="compare-box">
+          <h3>🇯🇵 日本語は「助詞」が変わる</h3>
+          <div class="ex"><span class="part-jp">私は</span> 彼が好き。</div>
+          <div class="ex">彼は <span class="part-jp">私を</span> 見た。</div>
+          <div class="ex">これは <span class="part-jp">私の</span> 本。</div>
+          <div class="ex">この本は <span class="part-jp">私のもの</span>。</div>
+          <p style="margin-top:8px;font-size:13px;color:var(--ink-soft);">「私」はずっと「私」のまま！</p>
+        </div>
+        <div class="compare-box">
+          <h3>🇬🇧 英語は「単語そのもの」が変わる</h3>
+          <div class="ex"><span class="part-en">I</span> like him.</div>
+          <div class="ex">He saw <span class="part-en">me</span>.</div>
+          <div class="ex">This is <span class="part-en">my</span> book.</div>
+          <div class="ex">This book is <span class="part-en">mine</span>.</div>
+          <p style="margin-top:8px;font-size:13px;color:var(--ink-soft);">「私」が4つの形に化ける！</p>
+        </div>
+      </div>
+
+      <p style="margin-top:14px;">だから英語学習者がやるべきことは、<span class="accent">日本語の助詞と英語の代名詞をセットで覚える</span>こと。「は・が」「の」「を・に」「のもの」、この4つの助詞を覚えるのが第一歩です。</p>
+    </div>
+
+    <div class="lesson-block">
+      <h2><span class="num">2</span>4つの「格」と日本語の助詞</h2>
+      <p>英語の代名詞には4つの形があって、それぞれ日本語の助詞と対応しています。</p>
+
+      <div class="cases-grid">
+        <div class="case-card nom">
+          <div class="case-name">主格</div>
+          <div class="particle">〜は／〜が</div>
+          <div class="role">主語になる。文の頭に置く。</div>
+          <div class="example"><b>She</b> is Kumi.</div>
+        </div>
+        <div class="case-card poss">
+          <div class="case-name">所有格</div>
+          <div class="particle">〜の</div>
+          <div class="role">名詞の前に置く。必ず名詞とセット。</div>
+          <div class="example">This is <b>my</b> pen.</div>
+        </div>
+        <div class="case-card obj">
+          <div class="case-name">目的格</div>
+          <div class="particle">〜を／〜に</div>
+          <div class="role">動詞・前置詞の後ろに置く。</div>
+          <div class="example">I like <b>him</b>.</div>
+        </div>
+        <div class="case-card pron">
+          <div class="case-name">所有代名詞</div>
+          <div class="particle">〜のもの</div>
+          <div class="role">「所有格＋名詞」を1語にまとめた形。</div>
+          <div class="example">This is <b>yours</b>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h2><span class="num">3</span>人称代名詞の活用表</h2>
+      <p>色のついた助詞と一緒に縦に覚えるのがコツ。</p>
+
+      <div class="pronoun-table-wrap">
+        <table class="pronoun-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="nom-h">主格<span class="h-particle">〜は／〜が</span></th>
+              <th class="poss-h">所有格<span class="h-particle">〜の</span></th>
+              <th class="obj-h">目的格<span class="h-particle">〜を／〜に</span></th>
+              <th class="pron-h">所有代名詞<span class="h-particle">〜のもの</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="group-header"><td colspan="5">単数（1人・1つ）</td></tr>
+            <tr><td class="row-label">私</td><td>I</td><td>my</td><td>me</td><td>mine</td></tr>
+            <tr><td class="row-label">あなた</td><td>you</td><td>your</td><td>you</td><td>yours</td></tr>
+            <tr><td class="row-label">彼</td><td>he</td><td>his</td><td>him</td><td>his</td></tr>
+            <tr><td class="row-label">彼女</td><td>she</td><td>her</td><td>her</td><td>hers</td></tr>
+            <tr><td class="row-label">それ</td><td>it</td><td>its</td><td>it</td><td>—</td></tr>
+            <tr><td class="row-label">太郎</td><td>Taro</td><td>Taro's</td><td>Taro</td><td>Taro's</td></tr>
+            <tr class="group-header"><td colspan="5">複数（2人以上・2つ以上）</td></tr>
+            <tr><td class="row-label">私たち</td><td>we</td><td>our</td><td>us</td><td>ours</td></tr>
+            <tr><td class="row-label">あなたたち</td><td>you</td><td>your</td><td>you</td><td>yours</td></tr>
+            <tr><td class="row-label">彼ら／それら</td><td>they</td><td>their</td><td>them</td><td>theirs</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h2><span class="num">4</span>1つの英文で「私」が全部変わる！</h2>
+      <p>同じ「私」を指していても、文の中の位置で形がぜんぶちがいます。これが英語の代名詞のおもしろさ。</p>
+
+      <div class="multiform">
+        <div class="sentence">
+          <span class="p-nom">I</span> showed <span class="p-poss">my</span> picture to <span class="p-obj">her</span>, but she didn't like <span class="p-obj">it</span>. The best one is <span class="p-pron">mine</span>.
+        </div>
+        <div class="jp-trans">（私は彼女に私の絵を見せたが、彼女はそれを気に入らなかった。一番いいのは私のだ。）</div>
+        <ul class="breakdown">
+          <li><b style="color:var(--c-nom-dark);">I</b>　動詞 showed の前 → <b>主格</b>（〜は）</li>
+          <li><b style="color:var(--c-poss-dark);">my</b>　名詞 picture の前 → <b>所有格</b>（〜の）</li>
+          <li><b style="color:var(--c-obj-dark);">her</b>　前置詞 to の後 → <b>目的格</b>（〜に）</li>
+          <li><b style="color:var(--c-obj-dark);">it</b>　動詞 like の後 → <b>目的格</b>（〜を）</li>
+          <li><b style="color:var(--c-pron-dark);">mine</b>　「私のもの」を1語で → <b>所有代名詞</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lesson-block">
+      <h2><span class="num">5</span>覚え方のコツは「声に出す」</h2>
+      <p>表を眺めるだけでは身につきません。<span class="accent">日本語の助詞と英語の代名詞をセットで唱える</span>のが効果バツグン。リズムにのせて口に出してみよう。</p>
+
+      <div class="chant">
+        <span class="row"><span class="en">I</span>／は・が、<span class="en">my</span>／の、<span class="en">me</span>／を・に、<span class="en">mine</span>／のもの</span>
+        <span class="row"><span class="en">he</span>／は・が、<span class="en">his</span>／の、<span class="en">him</span>／を・に、<span class="en">his</span>／のもの</span>
+        <span class="row"><span class="en">she</span>／は・が、<span class="en">her</span>／の、<span class="en">her</span>／を・に、<span class="en">hers</span>／のもの</span>
+        <span class="row"><span class="en">we</span>／は・が、<span class="en">our</span>／の、<span class="en">us</span>／を・に、<span class="en">ours</span>／のもの</span>
+        <span class="row"><span class="en">they</span>／は・が、<span class="en">their</span>／の、<span class="en">them</span>／を・に、<span class="en">theirs</span>／のもの</span>
+      </div>
+
+      <p style="margin-top:16px;">そして英文を読んでいて代名詞が出てきたら、必ず<span class="accent">「これは主格か、所有格か、目的格か？」と自分に問いかける</span>クセをつけよう。これができれば一気にレベルアップ！</p>
+
+      <div style="text-align:center; margin-top:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+        <button class="restart-btn" onclick="switchTab('flip')">🔄 めくって覚える</button>
+        <button class="restart-btn" onclick="switchTab('quiz')">✏️ 問題に挑戦</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ FLIP / SELF-PRACTICE SECTION ============ -->
+  <section id="flip-section" class="section">
+
+    <div class="flip-intro-card">
+      <h2>🔄 めくって覚えよう</h2>
+      <p>「私は」は英語で何だっけ？ — 心の中で答えを言ってから、カードをタップしてめくろう。</p>
+
+      <div class="flip-howto">
+        <div class="howto-item"><b>カード</b>をタップ → そのカードだけめくる</div>
+        <div class="howto-item"><b>「私」など左のラベル</b>をタップ → その行を全部めくる</div>
+        <div class="howto-item"><b>「主格」など上のラベル</b>をタップ → その列を全部めくる</div>
+      </div>
+    </div>
+
+    <div class="flip-controls">
+      <button class="ctrl-btn show" onclick="flipAll(true)">🔍 全部めくる</button>
+      <button class="ctrl-btn hide" onclick="flipAll(false)">🃏 全部裏返す</button>
+    </div>
+
+    <div class="flip-table" id="flip-table">
+      <!-- generated by JS -->
+    </div>
+
+    <div style="text-align:center; margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <button class="restart-btn" onclick="switchTab('quiz')">✏️ 問題に挑戦する →</button>
+    </div>
+
+  </section>
+  <section id="quiz-section" class="section">
+
+    <!-- Start screen -->
+    <div class="quiz-start" id="quiz-start">
+      <div class="start-card">
+        <div class="start-icon">✏️</div>
+        <h2>問題に挑戦しよう！</h2>
+        <p class="start-desc">全20問 ／ 主格・所有格・目的格・所有代名詞をマスター</p>
+
+        <div class="mode-buttons">
+          <button class="mode-btn order" onclick="startQuiz('order')">
+            <div class="mode-icon">📋</div>
+            <div class="mode-name">順番モード</div>
+            <div class="mode-desc">主格→所有格→<br>目的格→所有代名詞</div>
+          </button>
+          <button class="mode-btn random" onclick="startQuiz('random')">
+            <div class="mode-icon">🎲</div>
+            <div class="mode-name">ランダムモード</div>
+            <div class="mode-desc">問題の順番が<br>シャッフルされる</div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz play screen -->
+    <div class="quiz-play" id="quiz-play">
+
+      <div class="quiz-header">
+        <div class="quiz-progress-text">問題 <span id="q-num">1</span> / <span id="q-total">20</span></div>
+        <div class="mode-badge" id="mode-badge"></div>
+        <div class="quiz-score">得点 <span id="score">0</span></div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+
+      <div id="quiz-container">
+        <div class="quiz-card" id="quiz-card">
+          <span class="q-category" id="q-category"></span>
+          <div class="question">
+            <div class="en-sentence" id="q-sentence"></div>
+            <div class="jp-hint" id="q-hint"></div>
+          </div>
+          <div class="options" id="q-options"></div>
+          <div class="feedback" id="q-feedback">
+            <div class="feedback-title" id="feedback-title"></div>
+            <div class="feedback-text" id="feedback-text"></div>
+          </div>
+          <div class="quiz-actions">
+            <button class="quit-btn" onclick="backToStart()">← モード選択へ戻る</button>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">次の問題へ →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-screen" id="result-screen">
+        <div class="result-emoji" id="result-emoji">🎉</div>
+        <div class="score-big"><span id="final-score">0</span><span class="total"> / 20</span></div>
+        <div class="grade" id="result-grade"></div>
+        <div class="grade-msg" id="result-msg"></div>
+        <div class="result-buttons">
+          <button class="restart-btn" onclick="restartSameMode()">もう一度挑戦</button>
+          <button class="restart-btn secondary" onclick="backToStart()">モードを変える</button>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <footer>
+    人称代名詞マスター・中1英語 / for omiiko ✎
+  </footer>
+
+</div>
+
+<script>
+// ============ QUIZ DATA ============
+// 5人称 × 4格 = 20問の完全マトリクス
+const questions = [
+  // === 主格（〜は／〜が）を入れる ===
+  {
+    case: 'nom', cat: '主格を入れよう',
+    parts: ['', ' am a student.'],
+    hint: '私は学生です。',
+    opts: ['I', 'my', 'me', 'mine'], ans: 0,
+    exp: '「私は」＝主語＝主格。私の主格は I。文の頭なので大文字。my・me・mine は主語にはなれない。'
+  },
+  {
+    case: 'nom', cat: '主格を入れよう',
+    parts: ['', ' is my brother.'],
+    hint: '彼は私の兄です。',
+    opts: ['He', 'His', 'Him', "He's"],
+    ans: 0,
+    exp: '「彼は」＝主語＝主格。彼の主格は He。文の頭なので大文字。His（〜の）や Him（〜を）は主語にはなれない。'
+  },
+  {
+    case: 'nom', cat: '主格を入れよう',
+    parts: ['', ' is from Canada.'],
+    hint: '彼女はカナダ出身です。',
+    opts: ['She', 'Her', 'Hers', "She's"],
+    ans: 0,
+    exp: '「彼女は」＝主語＝主格。彼女の主格は She。Her は所有格・目的格なので主語にはなれない。'
+  },
+  {
+    case: 'nom', cat: '主格を入れよう',
+    parts: ['', ' are good friends.'],
+    hint: '私たちは仲良しです。',
+    opts: ['We', 'Our', 'Us', 'Ours'], ans: 0,
+    exp: '「私たちは」＝主語＝主格。私たちの主格は We。Us は目的格なので主語にはなれない。'
+  },
+  {
+    case: 'nom', cat: '主格を入れよう',
+    parts: ['', ' play soccer every day.'],
+    hint: '彼らは毎日サッカーをする。',
+    opts: ['They', 'Their', 'Them', 'Theirs'], ans: 0,
+    exp: '「彼らは」＝主語＝主格。彼らの主格は They。文の頭なので大文字。'
+  },
+
+  // === 所有格（〜の）を入れる ===
+  {
+    case: 'poss', cat: '所有格を入れよう',
+    parts: ['This is ', ' bag.'],
+    hint: 'これは私のカバンです。',
+    opts: ['I', 'my', 'me', 'mine'], ans: 1,
+    exp: '後ろに bag という名詞→所有格。「私の」は my。mine は名詞の前には来ない（mine の後ろに名詞は不要）。'
+  },
+  {
+    case: 'poss', cat: '所有格を入れよう',
+    parts: ['', ' name is Ken.'],
+    hint: '彼の名前はケンです。',
+    opts: ['He', 'His', 'Him', "He's"], ans: 1,
+    exp: '後ろに name という名詞→所有格。「彼の」は His。文の頭なので大文字。'
+  },
+  {
+    case: 'poss', cat: '所有格を入れよう',
+    parts: ['I know ', ' sister.'],
+    hint: '私は彼女のお姉さんを知っている。',
+    opts: ['she', 'her', 'hers', "she's"], ans: 1,
+    exp: '後ろに sister という名詞→所有格。「彼女の」は her。hers の後ろには名詞はつかない。'
+  },
+  {
+    case: 'poss', cat: '所有格を入れよう',
+    parts: ['', ' teacher is Mr. Brown.'],
+    hint: '私たちの先生はブラウン先生です。',
+    opts: ['We', 'Our', 'Us', 'Ours'], ans: 1,
+    exp: '後ろに teacher という名詞→所有格。「私たちの」は Our。文の頭なので大文字。'
+  },
+  {
+    case: 'poss', cat: '所有格を入れよう',
+    parts: ['I like ', ' idea.'],
+    hint: '私は彼らの考えが好きだ。',
+    opts: ['they', 'their', 'them', 'theirs'], ans: 1,
+    exp: '後ろに idea という名詞→所有格。「彼らの」は their。'
+  },
+
+  // === 目的格（〜を／〜に）を入れる ===
+  {
+    case: 'obj', cat: '目的格を入れよう',
+    parts: ['He likes ', ' very much.'],
+    hint: '彼は私が大好きだ。',
+    opts: ['I', 'my', 'me', 'mine'], ans: 2,
+    exp: '動詞 likes の後ろ→目的格。「私を」は me。I は主格なので動詞のあとには来ない。'
+  },
+  {
+    case: 'obj', cat: '目的格を入れよう',
+    parts: ['I saw ', ' yesterday.'],
+    hint: '私は昨日彼を見た。',
+    opts: ['he', 'his', 'him', "he's"], ans: 2,
+    exp: '動詞 saw の後ろ→目的格。「彼を」は him。he（主格）は動詞のあとには来ない。'
+  },
+  {
+    case: 'obj', cat: '目的格を入れよう',
+    parts: ['Listen to ', '!'],
+    hint: '彼女の話を聞いて！',
+    opts: ['she', 'her', 'hers', "she's"], ans: 1,
+    exp: '前置詞 to の後ろ→目的格。「彼女に」は her。前置詞のあとは必ず目的格、これは超重要ルール！'
+  },
+  {
+    case: 'obj', cat: '目的格を入れよう',
+    parts: ['Please help ', '.'],
+    hint: 'お願い、私たちを助けて。',
+    opts: ['we', 'our', 'us', 'ours'], ans: 2,
+    exp: '動詞 help の後ろ→目的格。「私たちを」は us。we（主格）は動詞のあとには来ない。'
+  },
+  {
+    case: 'obj', cat: '目的格を入れよう',
+    parts: ['I met ', ' at the park.'],
+    hint: '私は公園で彼らに会った。',
+    opts: ['they', 'their', 'them', 'theirs'], ans: 2,
+    exp: '動詞 met の後ろ→目的格。「彼らに」は them。'
+  },
+
+  // === 所有代名詞（〜のもの）を入れる ===
+  {
+    case: 'pron', cat: '所有代名詞を入れよう',
+    parts: ['This eraser is ', '.'],
+    hint: 'この消しゴムは私のだ。',
+    opts: ['I', 'my', 'me', 'mine'], ans: 3,
+    exp: '「私のもの」を1語で→所有代名詞 mine。my の後ろに名詞がないのでここでは使えない。'
+  },
+  {
+    case: 'pron', cat: '所有代名詞を入れよう',
+    parts: ['That ball is ', '.'],
+    hint: 'あのボールは彼のだ。',
+    opts: ['he', 'his', 'him', "he's"], ans: 1,
+    exp: '「彼のもの」を1語で→所有代名詞 his。彼は所有格(his)と所有代名詞(his)が同じ形なのが特徴！'
+  },
+  {
+    case: 'pron', cat: '所有代名詞を入れよう',
+    parts: ['Is this umbrella ', '?'],
+    hint: 'この傘は彼女のもの？',
+    opts: ['she', 'her', 'hers', "she's"], ans: 2,
+    exp: '「彼女のもの」を1語で→所有代名詞 hers。her は後ろに名詞が必要なので、ここでは使えない。'
+  },
+  {
+    case: 'pron', cat: '所有代名詞を入れよう',
+    parts: ['Those bags are ', '.'],
+    hint: 'あれらのカバンは私たちのだ。',
+    opts: ['we', 'our', 'us', 'ours'], ans: 3,
+    exp: '「私たちのもの」を1語で→所有代名詞 ours。our の後ろに名詞がないのでここでは使えない。'
+  },
+  {
+    case: 'pron', cat: '所有代名詞を入れよう',
+    parts: ['These books are ', '.'],
+    hint: 'これらの本は彼らのだ。',
+    opts: ['they', 'their', 'them', 'theirs'], ans: 3,
+    exp: '「彼らのもの」を1語で→所有代名詞 theirs。their の後ろに名詞がないのでここでは使えない。'
+  }
+];
+
+// ============ STATE ============
+let activeQuestions = [];
+let currentQ = 0;
+let score = 0;
+let answered = false;
+let currentMode = 'order';
+
+// ============ TAB SWITCHING ============
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(tab + '-section').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.tab-btn').forEach(b => {
+  b.addEventListener('click', () => switchTab(b.dataset.tab));
+});
+
+// ============ QUIZ LOGIC ============
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startQuiz(mode) {
+  currentMode = mode;
+  if (mode === 'random') {
+    activeQuestions = shuffle(questions);
+  } else {
+    activeQuestions = [...questions];
+  }
+  currentQ = 0;
+  score = 0;
+
+  document.getElementById('quiz-start').classList.add('hidden');
+  document.getElementById('quiz-play').classList.add('active');
+  document.getElementById('result-screen').classList.remove('show');
+  document.getElementById('quiz-container').style.display = 'block';
+
+  // Set mode badge
+  const badge = document.getElementById('mode-badge');
+  if (mode === 'random') {
+    badge.textContent = '🎲 ランダム';
+    badge.className = 'mode-badge random';
+  } else {
+    badge.textContent = '📋 順番';
+    badge.className = 'mode-badge order';
+  }
+
+  renderQuestion();
+}
+
+function backToStart() {
+  document.getElementById('quiz-start').classList.remove('hidden');
+  document.getElementById('quiz-play').classList.remove('active');
+  document.getElementById('result-screen').classList.remove('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartSameMode() {
+  startQuiz(currentMode);
+}
+
+function renderQuestion() {
+  const q = activeQuestions[currentQ];
+  answered = false;
+
+  document.getElementById('q-num').textContent = currentQ + 1;
+  document.getElementById('q-total').textContent = activeQuestions.length;
+  document.getElementById('score').textContent = score;
+  document.getElementById('progress-fill').style.width = ((currentQ) / activeQuestions.length * 100) + '%';
+
+  const catEl = document.getElementById('q-category');
+  catEl.textContent = q.cat;
+  catEl.className = 'q-category ' + q.case;
+
+  // Build sentence with blank
+  document.getElementById('q-sentence').innerHTML =
+    q.parts[0] + '<span class="blank">　？　</span>' + q.parts[1];
+  document.getElementById('q-hint').textContent = q.hint;
+
+  const optsEl = document.getElementById('q-options');
+  optsEl.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = '<span class="letter">' + letters[i] + '</span><span class="opt-text">' + opt + '</span>';
+    btn.onclick = () => selectAnswer(i, btn);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('q-feedback').classList.remove('show', 'ok', 'ng');
+  document.getElementById('next-btn').classList.remove('show');
+  document.getElementById('next-btn').textContent =
+    (currentQ === activeQuestions.length - 1) ? '結果を見る →' : '次の問題へ →';
+}
+
+function selectAnswer(idx, btn) {
+  if (answered) return;
+  answered = true;
+  const q = activeQuestions[currentQ];
+  const correct = (idx === q.ans);
+
+  const buttons = document.querySelectorAll('.option-btn');
+  buttons.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) {
+      b.classList.add('correct');
+      const mark = document.createElement('span');
+      mark.className = 'mark';
+      mark.textContent = '◯';
+      b.appendChild(mark);
+    } else if (i === idx) {
+      b.classList.add('wrong');
+      const mark = document.createElement('span');
+      mark.className = 'mark';
+      mark.textContent = '×';
+      b.appendChild(mark);
+    }
+  });
+
+  const fb = document.getElementById('q-feedback');
+  const fbt = document.getElementById('feedback-title');
+  const fbx = document.getElementById('feedback-text');
+
+  // Update sentence to show correct answer
+  document.getElementById('q-sentence').innerHTML =
+    q.parts[0] + '<b style="background:var(--c-obj-bg); padding:0 6px; border-radius:4px;">' +
+    q.opts[q.ans] + '</b>' + q.parts[1];
+
+  if (correct) {
+    score++;
+    document.getElementById('score').textContent = score;
+    fb.classList.add('show', 'ok');
+    fbt.textContent = '正解！';
+  } else {
+    fb.classList.add('show', 'ng');
+    fbt.textContent = '正解は ' + q.opts[q.ans] + ' でした';
+  }
+  fbx.textContent = q.exp;
+
+  document.getElementById('next-btn').classList.add('show');
+  document.getElementById('progress-fill').style.width = ((currentQ + 1) / activeQuestions.length * 100) + '%';
+}
+
+function nextQuestion() {
+  if (currentQ < activeQuestions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-container').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.classList.add('show');
+  document.getElementById('final-score').textContent = score;
+
+  const pct = score / activeQuestions.length;
+  let emoji, grade, msg;
+  if (pct === 1) {
+    emoji = '🏆'; grade = 'パーフェクト！';
+    msg = '完璧。人称代名詞は完全にマスターできているね。' +
+          (currentMode === 'order' ? '次はランダムモードに挑戦してみよう！' : 'すばらしい実力！');
+  } else if (pct >= 0.85) {
+    emoji = '🎉'; grade = 'すばらしい！';
+    msg = '主格・所有格・目的格・所有代名詞の使い分けがしっかりできている。';
+  } else if (pct >= 0.7) {
+    emoji = '👍'; grade = 'いい調子！';
+    msg = 'もう少し。間違えたところを見直して、もう一度チャレンジしてみよう。';
+  } else if (pct >= 0.5) {
+    emoji = '💪'; grade = 'もう一歩！';
+    msg = '解説をもう一度読んで、助詞と格の対応をしっかり覚えよう。';
+  } else {
+    emoji = '📖'; grade = 'まずは解説から！';
+    msg = '焦らず、解説タブで「は・が」「の」「を・に」「のもの」の4つを覚えるところから。';
+  }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-grade').textContent = grade;
+  document.getElementById('result-msg').textContent = msg;
+}
+
+// ============ FLIP TABLE (SELF-PRACTICE) ============
+const flipTableData = [
+  { type: 'group', label: '単数（1人・1つ）' },
+  { type: 'row', person: '私', forms: ['I', 'my', 'me', 'mine'] },
+  { type: 'row', person: 'あなた', forms: ['you', 'your', 'you', 'yours'] },
+  { type: 'row', person: '彼', forms: ['he', 'his', 'him', 'his'] },
+  { type: 'row', person: '彼女', forms: ['she', 'her', 'her', 'hers'] },
+  { type: 'row', person: 'それ', forms: ['it', 'its', 'it', '—'] },
+  { type: 'row', person: '太郎', forms: ['Taro', "Taro's", 'Taro', "Taro's"] },
+  { type: 'group', label: '複数（2人以上・2つ以上）' },
+  { type: 'row', person: '私たち', forms: ['we', 'our', 'us', 'ours'] },
+  { type: 'row', person: 'あなたたち', forms: ['you', 'your', 'you', 'yours'] },
+  { type: 'row', person: '彼ら／それら', forms: ['they', 'their', 'them', 'theirs'] }
+];
+
+const colClasses = ['nom', 'poss', 'obj', 'pron'];
+const colNames = ['主格', '所有格', '目的格', '所有代名詞'];
+const colParticles = ['〜は／〜が', '〜の', '〜を／〜に', '〜のもの'];
+
+function buildFlipTable() {
+  const container = document.getElementById('flip-table');
+  let html = '';
+
+  // Header row
+  html += '<div class="flip-corner"></div>';
+  for (let i = 0; i < 4; i++) {
+    html += '<div class="flip-col-header ' + colClasses[i] + '" onclick="flipColumn(' + i + ')">' +
+            '<div class="ch-name">' + colNames[i] + '</div>' +
+            '<span class="ch-particle">' + colParticles[i] + '</span>' +
+            '</div>';
+  }
+
+  // Data rows
+  let rowIdx = 0;
+  flipTableData.forEach(item => {
+    if (item.type === 'group') {
+      html += '<div class="flip-group-header">' + item.label + '</div>';
+    } else {
+      const thisRow = rowIdx;
+      html += '<div class="flip-row-label" onclick="flipRow(' + thisRow + ')">' + item.person + '</div>';
+      item.forms.forEach((form, colIdx) => {
+        html += '<div class="flip-card" data-row="' + thisRow + '" data-col="' + colIdx + '" onclick="flipCell(this)">' +
+                '<div class="flip-inner">' +
+                '<div class="flip-front">?</div>' +
+                '<div class="flip-back ' + colClasses[colIdx] + '">' + form + '</div>' +
+                '</div></div>';
+      });
+      rowIdx++;
+    }
+  });
+
+  container.innerHTML = html;
+}
+
+function flipCell(el) {
+  el.classList.toggle('flipped');
+}
+
+function flipRow(rowIdx) {
+  const cells = document.querySelectorAll('.flip-card[data-row="' + rowIdx + '"]');
+  // 全部めくれていれば裏に戻す、それ以外は全部めくる
+  const allFlipped = Array.from(cells).every(c => c.classList.contains('flipped'));
+  cells.forEach((c, i) => {
+    setTimeout(() => {
+      if (allFlipped) c.classList.remove('flipped');
+      else c.classList.add('flipped');
+    }, i * 35);
+  });
+}
+
+function flipColumn(colIdx) {
+  const cells = document.querySelectorAll('.flip-card[data-col="' + colIdx + '"]');
+  const allFlipped = Array.from(cells).every(c => c.classList.contains('flipped'));
+  cells.forEach((c, i) => {
+    setTimeout(() => {
+      if (allFlipped) c.classList.remove('flipped');
+      else c.classList.add('flipped');
+    }, i * 25);
+  });
+}
+
+function flipAll(show) {
+  const cells = document.querySelectorAll('.flip-card');
+  cells.forEach((c, i) => {
+    setTimeout(() => {
+      if (show) c.classList.add('flipped');
+      else c.classList.remove('flipped');
+    }, i * 12);
+  });
+}
+
+// Initialize the flip table on load
+buildFlipTable();
+</script>
+
+</body>
+</html>
