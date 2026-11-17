@@ -357,6 +357,23 @@
     font-size: 16px;
   }
 
+  /* ===== タップで発音（音声） ===== */
+  .speakable { cursor: pointer; position: relative; transition: background .12s, color .12s, transform .08s; -webkit-tap-highlight-color: transparent; }
+  .pronoun-table td.speakable:hover { background: var(--c-obj-bg); }
+  .speakable:active { transform: scale(.94); }
+  .speakable.speaking { color: var(--c-obj-dark) !important; animation: spk-pulse .5s ease; }
+  @keyframes spk-pulse { 0%,100% { background: transparent; } 50% { background: var(--c-obj-bg); } }
+  .chant .en.speakable:hover { text-decoration: underline wavy var(--c-obj); }
+  .multiform .sentence .speakable:hover { text-decoration: underline wavy currentColor; }
+  .audio-hint {
+    display: flex; align-items: center; gap: 8px;
+    margin: 14px 0 2px; padding: 9px 14px;
+    background: var(--c-obj-bg); border: 1.5px solid var(--c-obj);
+    border-radius: 10px; font-family: var(--font-jp); font-size: 13px;
+    color: var(--c-obj-dark); font-weight: 600;
+  }
+  .audio-hint .spk { font-size: 16px; }
+
   .pronoun-table .row-label {
     font-family: var(--font-jp);
     font-weight: 500;
@@ -1185,6 +1202,7 @@
       <h2><span class="num">3</span>人称代名詞の活用表</h2>
       <p>色のついた助詞と一緒に縦に覚えるのがコツ。</p>
 
+      <div class="audio-hint"><span class="spk">🔊</span>英単語をタップすると発音が流れます。</div>
       <div class="pronoun-table-wrap">
         <table class="pronoun-table">
           <thead>
@@ -1265,6 +1283,7 @@
         <div class="howto-item"><b>カード</b>をタップ → そのカードだけめくる</div>
         <div class="howto-item"><b>「私」など左のラベル</b>をタップ → その行を全部めくる</div>
         <div class="howto-item"><b>「主格」など上のラベル</b>をタップ → その列を全部めくる</div>
+        <div class="howto-item">🔊 カードをめくって英単語が出ると<b>発音が流れます</b></div>
       </div>
     </div>
 
@@ -1762,6 +1781,10 @@ function buildFlipTable() {
 
 function flipCell(el) {
   el.classList.toggle('flipped');
+  if (el.classList.contains('flipped')) {
+    const back = el.querySelector('.flip-back');
+    if (back) speak(back.textContent, back);
+  }
 }
 
 function flipRow(rowIdx) {
@@ -1796,6 +1819,70 @@ function flipAll(show) {
     }, i * 12);
   });
 }
+
+// ============ 音声（タップで発音） ============
+let _enVoice = null;
+function pickVoice() {
+  const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
+  if (!vs.length) return null;
+  // en-US を優先、無ければ en 系、最後に先頭
+  return vs.find(v => /^en[-_]US/i.test(v.lang))
+      || vs.find(v => /^en[-_]GB/i.test(v.lang))
+      || vs.find(v => /^en/i.test(v.lang))
+      || null;
+}
+if (window.speechSynthesis) {
+  _enVoice = pickVoice();
+  speechSynthesis.onvoiceschanged = () => { _enVoice = pickVoice(); };
+}
+
+function speak(text, el) {
+  if (!window.speechSynthesis) return;
+  const raw = (text || '').trim();
+  if (!raw || raw === '—' || raw === '?' || raw === '…') return;
+  // "Taro's" はそのまま読ませる。記号だけの語は除外。
+  if (!/[a-zA-Z]/.test(raw)) return;
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(raw);
+    u.lang = (_enVoice && _enVoice.lang) || 'en-US';
+    if (_enVoice) u.voice = _enVoice;
+    u.rate = 0.9;
+    u.pitch = 1.0;
+    speechSynthesis.speak(u);
+  } catch (e) { /* 非対応環境では無音で続行 */ }
+  if (el) {
+    el.classList.add('speaking');
+    setTimeout(() => el.classList.remove('speaking'), 500);
+  }
+}
+
+function makeSpeakable(el, textGetter) {
+  el.classList.add('speakable');
+  el.setAttribute('role', 'button');
+  el.setAttribute('tabindex', '0');
+  el.setAttribute('aria-label', (textGetter(el) || '') + ' を発音');
+  el.addEventListener('click', () => speak(textGetter(el), el));
+  el.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); speak(textGetter(el), el); }
+  });
+}
+
+function initAudioTargets() {
+  const getText = (el) => el.textContent;
+  // 1) 代名詞表（解説タブ）の英単語セル
+  document.querySelectorAll('.pronoun-table tbody tr:not(.group-header) td:not(.row-label)')
+    .forEach(td => {
+      const t = td.textContent.trim();
+      if (t && t !== '—') makeSpeakable(td, getText);
+    });
+  // 2) 「声に出す」チャントの英単語
+  document.querySelectorAll('.chant .en').forEach(sp => makeSpeakable(sp, getText));
+  // 3) 例文中の色付き代名詞
+  document.querySelectorAll('.multiform .sentence .p-nom, .multiform .sentence .p-poss, .multiform .sentence .p-obj, .multiform .sentence .p-pron')
+    .forEach(sp => makeSpeakable(sp, getText));
+}
+initAudioTargets();
 
 // Initialize the flip table on load
 buildFlipTable();
