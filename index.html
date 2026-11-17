@@ -374,6 +374,19 @@
   }
   .audio-hint .spk { font-size: 16px; }
 
+  /* カタカナ発音表記 */
+  .kana {
+    display: block;
+    font-family: var(--font-jp);
+    font-weight: 500;
+    font-size: 11px;
+    color: var(--ink-soft, #888);
+    margin-top: 2px;
+    letter-spacing: .02em;
+  }
+  .flip-back .kana { font-size: 10px; margin-top: 1px; opacity: .8; }
+  @media (max-width: 560px) { .kana { font-size: 10px; } }
+
   .pronoun-table .row-label {
     font-family: var(--font-jp);
     font-weight: 500;
@@ -1766,10 +1779,12 @@ function buildFlipTable() {
       const thisRow = rowIdx;
       html += '<div class="flip-row-label" onclick="flipRow(' + thisRow + ')">' + item.person + '</div>';
       item.forms.forEach((form, colIdx) => {
+        const kana = (typeof kanaFor === 'function') ? kanaFor(form) : '';
+        const kanaHtml = kana ? '<span class="kana">' + kana + '</span>' : '';
         html += '<div class="flip-card" data-row="' + thisRow + '" data-col="' + colIdx + '" onclick="flipCell(this)">' +
                 '<div class="flip-inner">' +
                 '<div class="flip-front">?</div>' +
-                '<div class="flip-back ' + colClasses[colIdx] + '">' + form + '</div>' +
+                '<div class="flip-back ' + colClasses[colIdx] + '" data-word="' + form + '">' + form + kanaHtml + '</div>' +
                 '</div></div>';
       });
       rowIdx++;
@@ -1783,7 +1798,7 @@ function flipCell(el) {
   el.classList.toggle('flipped');
   if (el.classList.contains('flipped')) {
     const back = el.querySelector('.flip-back');
-    if (back) speak(back.textContent, back);
+    if (back) speak(back.dataset.word || back.textContent, back);
   }
 }
 
@@ -1855,6 +1870,22 @@ function ttsFallback(text) {
 
 function audioKey(raw) { return raw.toLowerCase().replace(/[^a-z]/g, ''); }
 
+// カタカナ発音表記（key = audioKey と同じ）
+const KANA = {
+  i: 'アイ', my: 'マイ', me: 'ミー', mine: 'マイン',
+  you: 'ユー', your: 'ユア', yours: 'ユアーズ',
+  he: 'ヒー', his: 'ヒズ', him: 'ヒム',
+  she: 'シー', her: 'ハー', hers: 'ハーズ',
+  it: 'イット', its: 'イッツ',
+  taro: 'タロウ', taros: 'タロウズ',
+  we: 'ウィー', our: 'アワー', us: 'アス', ours: 'アワーズ',
+  they: 'ゼイ', their: 'ゼア', them: 'ゼム', theirs: 'ゼアーズ'
+};
+function kanaFor(raw) {
+  const k = audioKey((raw || '').trim());
+  return KANA[k] || '';
+}
+
 function speak(text, el) {
   const raw = (text || '').trim();
   if (!raw || raw === '—' || raw === '?' || raw === '…' || !/[a-zA-Z]/.test(raw)) return;
@@ -1900,13 +1931,24 @@ function makeSpeakable(el, textGetter) {
   });
 }
 
+// 英単語セルにカタカナ発音を併記（data-word に英単語を保持して読み上げに使う）
+function addKana(el, word) {
+  const kana = kanaFor(word);
+  if (!kana) return;
+  el.dataset.word = word;
+  const sp = document.createElement('span');
+  sp.className = 'kana';
+  sp.textContent = kana;
+  el.appendChild(sp);
+}
+
 function initAudioTargets() {
-  const getText = (el) => el.textContent;
+  const getText = (el) => el.dataset.word || el.textContent;
   // 1) 代名詞表（解説タブ）の英単語セル
   document.querySelectorAll('.pronoun-table tbody tr:not(.group-header) td:not(.row-label)')
     .forEach(td => {
       const t = td.textContent.trim();
-      if (t && t !== '—') makeSpeakable(td, getText);
+      if (t && t !== '—') { addKana(td, t); makeSpeakable(td, getText); }
     });
   // 2) 「声に出す」チャントの英単語
   document.querySelectorAll('.chant .en').forEach(sp => makeSpeakable(sp, getText));
