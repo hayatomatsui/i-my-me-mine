@@ -1820,12 +1820,18 @@ function flipAll(show) {
   });
 }
 
-// ============ 音声（タップで発音） ============
+// ============ 音声（タップで発音：録音ファイル方式） ============
+// audio/<key>.m4a を再生。key = 英単語を小文字化し英字以外を除去したもの
+// （例: I→i, Taro's→taros）。ファイルが無い/非対応の端末では内蔵音声に自動フォールバック。
+const AUDIO_BASE = 'audio/';
+const _audioCache = {};
+let _curAudio = null;
+
+// --- 内蔵音声（フォールバック用） ---
 let _enVoice = null;
 function pickVoice() {
   const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
   if (!vs.length) return null;
-  // en-US を優先、無ければ en 系、最後に先頭
   return vs.find(v => /^en[-_]US/i.test(v.lang))
       || vs.find(v => /^en[-_]GB/i.test(v.lang))
       || vs.find(v => /^en/i.test(v.lang))
@@ -1835,25 +1841,51 @@ if (window.speechSynthesis) {
   _enVoice = pickVoice();
   speechSynthesis.onvoiceschanged = () => { _enVoice = pickVoice(); };
 }
-
-function speak(text, el) {
+function ttsFallback(text) {
   if (!window.speechSynthesis) return;
-  const raw = (text || '').trim();
-  if (!raw || raw === '—' || raw === '?' || raw === '…') return;
-  // "Taro's" はそのまま読ませる。記号だけの語は除外。
-  if (!/[a-zA-Z]/.test(raw)) return;
   try {
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(raw);
+    const u = new SpeechSynthesisUtterance(text);
     u.lang = (_enVoice && _enVoice.lang) || 'en-US';
     if (_enVoice) u.voice = _enVoice;
     u.rate = 0.9;
-    u.pitch = 1.0;
     speechSynthesis.speak(u);
-  } catch (e) { /* 非対応環境では無音で続行 */ }
+  } catch (e) { /* 無音で続行 */ }
+}
+
+function audioKey(raw) { return raw.toLowerCase().replace(/[^a-z]/g, ''); }
+
+function speak(text, el) {
+  const raw = (text || '').trim();
+  if (!raw || raw === '—' || raw === '?' || raw === '…' || !/[a-zA-Z]/.test(raw)) return;
+  const key = audioKey(raw);
+  if (!key) return;
+
   if (el) {
     el.classList.add('speaking');
     setTimeout(() => el.classList.remove('speaking'), 500);
+  }
+
+  // 再生中のものを止める
+  if (_curAudio) { try { _curAudio.pause(); _curAudio.currentTime = 0; } catch (e) {} }
+  if (window.speechSynthesis) { try { speechSynthesis.cancel(); } catch (e) {} }
+
+  let a = _audioCache[key];
+  if (!a) {
+    a = new Audio(AUDIO_BASE + key + '.m4a');
+    a.preload = 'auto';
+    a.addEventListener('error', () => { a._failed = true; ttsFallback(raw); });
+    _audioCache[key] = a;
+  }
+  _curAudio = a;
+
+  if (a._failed) { ttsFallback(raw); return; }
+  try {
+    a.currentTime = 0;
+    const p = a.play();
+    if (p && p.catch) p.catch(() => ttsFallback(raw));
+  } catch (e) {
+    ttsFallback(raw);
   }
 }
 
